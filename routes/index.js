@@ -59,9 +59,33 @@ router.get('/api/workouts/range', (req, res) => {
 });
 
 // Add an Exercise to a Workout
-router.put('/api/workouts/:id', (req, res) => {});
+router.put('/api/workouts/:id', (req, res) => {
+  db.Workout.updateOne(
+    {
+
+    }
+  )
+  .then( (newExercise) => {
+
+  })
+  .catch( (err) => {
+
+  });
+});
 
 // Create a new Workout
-router.post('/api/workouts', (req, res) => {});
+router.post('/api/workouts', (req, res) => {
+  db.Workout.create(
+    {
+      
+    }
+  )
+  .then( (newWorkout) => {
+
+  })
+  .catch( (err) => {
+
+  });
+});
 
 module.exports = router;
