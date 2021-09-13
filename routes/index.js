@@ -14,6 +14,10 @@ router.get('/stats', (req, res) => {
   res.sendFile(path.join(__dirname, "../public/stats.html"));
 });
 
+router.get('/exercise', (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/exercise.html"));
+});
+
 // Last workout
 router.get('/api/workouts', (req, res) => {
   db.Workout.aggregate(
@@ -60,16 +64,24 @@ router.get('/api/workouts/range', (req, res) => {
 
 // Add an Exercise to a Workout
 router.put('/api/workouts/:id', (req, res) => {
-  db.Workout.updateOne(
+  db.Workout.findByIdAndUpdate(
+    req.params.id,
     {
-
+      $push: {
+        exercises: {
+          ...req.body,
+        }
+      }
     }
   )
   .then( (newExercise) => {
-
+    res
+    .status(200)
+    .json(newExercise);
   })
   .catch( (err) => {
-
+    console.log(err);
+    res.status(500);
   });
 });
 
@@ -77,14 +89,18 @@ router.put('/api/workouts/:id', (req, res) => {
 router.post('/api/workouts', (req, res) => {
   db.Workout.create(
     {
-      
+      day: new Date(),
+      exercises: [],
     }
   )
   .then( (newWorkout) => {
-
+    res
+    .status(200)
+    .json(newWorkout);
   })
   .catch( (err) => {
-
+    console.log(err);
+    res.status(500);
   });
 });
 
